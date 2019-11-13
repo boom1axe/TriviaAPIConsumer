@@ -16,11 +16,11 @@ namespace TriviaAPIConsumer
         static TriviaClient()
         {
             //Initialize all HttpClient settings
-            client.BaseAddress = new Uri("https://opendb.com/");
+            client.BaseAddress = new Uri("https://opentdb.com/");
 
         }
 
-        public async Task<string> GetTriviaQuestionsAsync(byte numQuestions)
+        public async Task<TriviaResponse> GetTriviaQuestionsAsync(byte numQuestions)
         {
             HttpResponseMessage response = 
                 await client.GetAsync($"api.php?amount={numQuestions}");
@@ -28,6 +28,7 @@ namespace TriviaAPIConsumer
             {
                 string data = await response.Content.ReadAsStringAsync();
                 TriviaResponse result = JsonConvert.DeserializeObject<TriviaResponse>(data);
+
 
                 return result;
             }
@@ -42,7 +43,8 @@ namespace TriviaAPIConsumer
     public class Result
     {
         public string Category { get; set; }
-        public string Type { get; set; }
+        [JsonProperty("Type")]
+        public string QuestionType { get; set; }
         public string Difficulty { get; set; }
         public string Question { get; set; }
         public string Correct_answer { get; set; }

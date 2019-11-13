@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace TriviaAPIConsumer
@@ -11,12 +12,21 @@ namespace TriviaAPIConsumer
 
             TriviaClient trivia = new TriviaClient();
             TriviaResponse result = await trivia.GetTriviaQuestionsAsync(3);
+            DisplayQuestions(result.Results); ;
 
-            Console.WriteLine("Resceived trivia question");
+           
+        }
 
-            Console.WriteLine(result.Results[0].Question);
-
-            Console.ReadKey();
+        static void DisplayQuestions(List<Result> questions)
+        {
+            for (int i = 0; i < questions.Count; i++)
+            { 
+                Console.WriteLine($"{q}")
+                Console.WriteLine($"Let me ask: {questions[i].Question}\n");
+                Console.ReadKey();
+                Console.WriteLine($"{questions[i].Correct_answer}\n");
+                
+            }
         }
     }
 }
