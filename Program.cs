@@ -10,11 +10,11 @@ namespace TriviaAPIConsumer
             Console.WriteLine("Retriving trivia question....");
 
             TriviaClient trivia = new TriviaClient();
-            string result = await trivia.GetTriviaQuestionsAsync();
+            TriviaResponse result = await trivia.GetTriviaQuestionsAsync(3);
 
             Console.WriteLine("Resceived trivia question");
 
-            Console.WriteLine(result);
+            Console.WriteLine(result.Results[0].Question);
 
             Console.ReadKey();
         }

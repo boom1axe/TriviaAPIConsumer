@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -16,17 +17,19 @@ namespace TriviaAPIConsumer
         {
             //Initialize all HttpClient settings
             client.BaseAddress = new Uri("https://opendb.com/");
-            
+
         }
 
-        public async Task<string> GetTriviaQuestionsAsync()
+        public async Task<string> GetTriviaQuestionsAsync(byte numQuestions)
         {
             HttpResponseMessage response = 
-                await client.GetAsync("api.php?amount=5");
+                await client.GetAsync($"api.php?amount={numQuestions}");
             if (response.IsSuccessStatusCode)
             {
                 string data = await response.Content.ReadAsStringAsync();
-                return data;
+                TriviaResponse result = JsonConvert.DeserializeObject<TriviaResponse>(data);
+
+                return result;
             }
             else
             {
@@ -38,18 +41,18 @@ namespace TriviaAPIConsumer
 
     public class Result
     {
-        public string category { get; set; }
-        public string type { get; set; }
-        public string difficulty { get; set; }
-        public string question { get; set; }
-        public string correct_answer { get; set; }
-        public List<string> incorrect_answers { get; set; }
+        public string Category { get; set; }
+        public string Type { get; set; }
+        public string Difficulty { get; set; }
+        public string Question { get; set; }
+        public string Correct_answer { get; set; }
+        public List<string> Incorrect_answers { get; set; }
     }
 
     public class TriviaResponse
     {
-        public int response_code { get; set; }
-        public List<Result> results { get; set; }
+        public int Response_code { get; set; }
+        public List<Result> Results { get; set; }
     }
 
 }
